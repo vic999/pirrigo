@@ -4,7 +4,7 @@ import (
 	"io"
 	"net/http"
 
-	"../logging"
+	"github.com/vic999/pirrigo/logging"
 )
 
 func logsAllWeb(rw http.ResponseWriter, req *http.Request) {

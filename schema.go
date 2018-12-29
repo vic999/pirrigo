@@ -1,9 +1,9 @@
 package main
 
 import (
-	"./data"
-	"./pirri"
-	"./settings"
+	"github.com/vic999/pirrigo/data"
+	"github.com/vic999/pirrigo/pirri"
+	"github.com/vic999/pirrigo/settings"
 )
 
 func migrateDataSchema() {

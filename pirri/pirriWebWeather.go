@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"../logging"
+	"github.com/vic999/pirrigo/logging"
 	"../weather"
 
 	"go.uber.org/zap"

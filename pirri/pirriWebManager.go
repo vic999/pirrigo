@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"runtime"
 
-	"../logging"
-	"../settings"
+	"github.com/vic999/pirrigo/logging"
+	"github.com/vic999/pirrigo/settings"
 	"github.com/newrelic/go-agent"
 )
 
