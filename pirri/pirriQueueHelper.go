@@ -85,6 +85,7 @@ func rabbitSend(queueName string, body string) {
 
 }
 
+//Setup Rabbit Receiver
 func RabbitReceive(queueName string) {
 	rabbitConnect()
 	log := logging.Service()
@@ -134,6 +135,7 @@ func messageHandler(queueName string, message []byte) {
 	}
 }
 
+//Listen for tasks if Message queue is not confgured
 func ListenForTasks() {
 	defer WG.Done()
 	for {

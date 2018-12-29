@@ -3,8 +3,8 @@ package pirri
 import (
 	"time"
 
-	"github.com/vic999/pirrigo/data"
 	rpio "github.com/stianeikeland/go-rpio"
+	"github.com/vic999/pirrigo/data"
 	"github.com/vic999/pirrigo/logging"
 	"github.com/vic999/pirrigo/settings"
 	"go.uber.org/zap"
@@ -18,6 +18,7 @@ type GpioPin struct {
 	Common bool `sql:"DEFAULT:false" gorm:"not null"`
 }
 
+//this function sets the commonWire
 func SetCommonWire() {
 	d := data.Service()
 	var gpio GpioPin

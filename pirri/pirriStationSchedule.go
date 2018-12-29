@@ -43,6 +43,7 @@ func checkForTasks() {
 	sendFoundScheduleItems(scheds)
 }
 
+//This fucntion starts watching for tasks
 func StartTaskMonitor() {
 	set := settings.Service()
 	logging.Service().LogEvent(`Starting monitoring at interval`,
