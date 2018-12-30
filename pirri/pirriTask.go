@@ -55,7 +55,7 @@ func (t *Task) execute() {
 
 	if t.Station.GPIO > 0 {
 		t.log()
-		gpioActivator(t)
+		go gpioActivator(t)
 	}
 	logging.Service().LogEvent("Task execution complete for station", zap.Int("stationID", t.Station.ID))
 }
