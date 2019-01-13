@@ -1,3 +1,4 @@
+
 # Multi-stage build setup (https://docs.docker.com/develop/develop-images/multistage-build/)
 
 # Stage 1 (to create a "build" image, ~850MB)
@@ -8,8 +9,7 @@ MAINTAINER Victor Jungbauer <victor.jungbauer@gmail.com>
 COPY . /go/src/github.com/vic999/pirrigo/
 WORKDIR /go/src/github.com/vic999/pirrigo/
 RUN set -x && \
-    go get github.com/golang/dep/cmd/dep && \
-    dep ensure -v
+    go get -v
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -a -o app .
 
@@ -26,3 +26,4 @@ COPY --from=builder /go/src/github.com/vic999/pirrigo/app .
 
 EXPOSE 8000
 ENTRYPOINT ["./app"]
+
