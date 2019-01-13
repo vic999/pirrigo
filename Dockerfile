@@ -4,7 +4,17 @@
 # Stage 1 (to create a "build" image, ~850MB)
 FROM golang:1.10.1 AS builder
 RUN go version
+
 MAINTAINER Victor Jungbauer <victor.jungbauer@gmail.com>
+RUN apt-get update -qq
+RUN apt-get install -y -qq git curl wget
+
+# install npm
+RUN apt-get install -y -qq npm
+RUN ln -s /usr/bin/nodejs /usr/bin/node
+
+# install bower
+RUN npm install --global bower
 
 COPY . /go/src/github.com/vic999/pirrigo/
 WORKDIR /go/src/github.com/vic999/pirrigo/
