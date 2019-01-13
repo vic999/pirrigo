@@ -1,9 +1,28 @@
-FROM golang:alpine as builder
-RUN mkdir /build 
-ADD . /build/
-WORKDIR /build 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o main .
+# Multi-stage build setup (https://docs.docker.com/develop/develop-images/multistage-build/)
+
+# Stage 1 (to create a "build" image, ~850MB)
+FROM golang:1.10.1 AS builder
+RUN go version
+MAINTAINER Victor Jungbauer <victor.jungbauer@gmail.com>
+
+COPY . /go/src/github.com/vic999/pirrigo/
+WORKDIR /go/src/github.com/vic999/pirrigo/
+RUN set -x && \
+    go get github.com/golang/dep/cmd/dep && \
+    dep ensure -v
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 go build -a -o app .
+
+# Stage 2 (to create a downsized "container executable", ~7MB)
+
+# If you need SSL certificates for HTTPS, replace `FROM SCRATCH` with:
+#
+#   FROM alpine:3.7
+#   RUN apk --no-cache add ca-certificates
+#
 FROM scratch
-COPY --from=builder /build/ /app/
-WORKDIR /app
-CMD ["./pirrigo"]
+WORKDIR /root/
+COPY --from=builder /go/src/github.com/vic999/pirrigo/app .
+
+EXPOSE 8000
+ENTRYPOINT ["./app"]
