@@ -4,10 +4,10 @@ import (
 	"sync"
 	"time"
 
-	"../logging"
-	"../settings"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/vic999/pirrigo/logging"
+	"github.com/vic999/pirrigo/settings"
 	"go.uber.org/zap"
 )
 

@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"time"
 
-	"../data"
-	"../logging"
-	"../settings"
+	"github.com/vic999/pirrigo/data"
+	"github.com/vic999/pirrigo/logging"
+	"github.com/vic999/pirrigo/settings"
 	"go.uber.org/zap"
 )
 
@@ -55,7 +55,7 @@ func (t *Task) execute() {
 
 	if t.Station.GPIO > 0 {
 		t.log()
-		gpioActivator(t)
+		go gpioActivator(t)
 	}
 	logging.Service().LogEvent("Task execution complete for station", zap.Int("stationID", t.Station.ID))
 }

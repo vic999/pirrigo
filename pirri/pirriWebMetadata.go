@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"../settings"
+	"github.com/vic999/pirrigo/settings"
 )
 
 func metadataWeb(rw http.ResponseWriter, req *http.Request) {

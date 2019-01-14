@@ -3,9 +3,9 @@ package pirri
 import (
 	"time"
 
-	"../logging"
-	"../settings"
 	"github.com/streadway/amqp"
+	"github.com/vic999/pirrigo/logging"
+	"github.com/vic999/pirrigo/settings"
 	"go.uber.org/zap"
 )
 
@@ -85,6 +85,7 @@ func rabbitSend(queueName string, body string) {
 
 }
 
+//Setup Rabbit Receiver
 func RabbitReceive(queueName string) {
 	rabbitConnect()
 	log := logging.Service()
@@ -134,6 +135,7 @@ func messageHandler(queueName string, message []byte) {
 	}
 }
 
+//Listen for tasks if Message queue is not confgured
 func ListenForTasks() {
 	defer WG.Done()
 	for {

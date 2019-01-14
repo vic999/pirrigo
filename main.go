@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"os"
 
-	"./data"
-	"./logging"
-	"./pirri"
-	"./settings"
+	"github.com/vic999/pirrigo/data"
+	"github.com/vic999/pirrigo/logging"
+	"github.com/vic999/pirrigo/pirri"
+	"github.com/vic999/pirrigo/settings"
 )
 
 func main() {

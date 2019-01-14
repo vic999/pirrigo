@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"runtime"
 
-	"../logging"
-	"../settings"
+	"github.com/vic999/pirrigo/logging"
+	"github.com/vic999/pirrigo/settings"
 	"github.com/newrelic/go-agent"
 )
-
+//this function Starts the web Server
 func StartPirriWebApp() {
 	log := logging.Service()
 	set := settings.Service()

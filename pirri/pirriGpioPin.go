@@ -1,14 +1,17 @@
 package pirri
 
 import (
+	"sync"
 	"time"
 
-	"../data"
-	"../logging"
-	"../settings"
-	"github.com/stianeikeland/go-rpio"
+	rpio "github.com/stianeikeland/go-rpio"
+	"github.com/vic999/pirrigo/data"
+	"github.com/vic999/pirrigo/logging"
+	"github.com/vic999/pirrigo/settings"
 	"go.uber.org/zap"
 )
+
+var mutex = &sync.Mutex{}
 
 //GpioPin - describes a Raspberry Pi GPIO pin
 type GpioPin struct {
@@ -18,6 +21,7 @@ type GpioPin struct {
 	Common bool `sql:"DEFAULT:false" gorm:"not null"`
 }
 
+//this function sets the commonWire
 func SetCommonWire() {
 	d := data.Service()
 	var gpio GpioPin
@@ -72,29 +76,40 @@ func GPIOClear() {
 		log.LogEvent("Deactivating GPIO",
 			zap.Int("gpio", gpios[i].GPIO),
 		)
+		mutex.Lock()
 		pin.High()
+		mutex.Unlock()
 	}
+}
+
+func gpioLow(gpio int) {
+	rpio.Open()
+	defer rpio.Close()
+	pin := rpio.Pin(gpio)
+	pin.Output()
+	pin.Low()
+}
+
+func gpioHigh(gpio int) {
+	rpio.Open()
+	defer rpio.Close()
+	pin := rpio.Pin(gpio)
+	pin.Output()
+	pin.High()
 }
 
 func gpioActivate(gpio int, state bool, seconds int) {
 	log := logging.Service()
 	set := settings.Service()
-	defer rpio.Close()
-	rpio.Open()
-	pin := rpio.Pin(gpio)
-	common := rpio.Pin(set.GPIO.CommonWire)
-	pin.Output()
-	common.Output()
 
 	log.LogEvent("Activating GPIOs",
 		zap.Int("commonWire", set.GPIO.CommonWire),
 		zap.Int("gpio", gpio),
 		zap.Int("durationSeconds", seconds),
 	)
-
-	common.Low()
-	pin.Low()
-
+	mutex.Lock()
+	gpioLow(gpio)
+	mutex.Unlock()
 	// start countdown
 	for seconds > 0 && !RUNSTATUS.Cancel {
 		time.Sleep(time.Duration(1) * time.Second)
@@ -105,6 +120,7 @@ func gpioActivate(gpio int, state bool, seconds int) {
 		zap.Int("gpio", gpio),
 		zap.Int("durationSeconds", seconds),
 	)
-	common.High()
-	pin.High()
+	mutex.Lock()
+	gpioLow(gpio)
+	mutex.Unlock()
 }
