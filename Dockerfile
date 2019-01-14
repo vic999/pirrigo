@@ -29,5 +29,5 @@ COPY --from=builder /go/src/github.com/vic999/pirrigo/static .
 COPY --from=builder /go/src/github.com/vic999/pirrigo/templates .
 
 EXPOSE 8000
-ENTRYPOINT ["./app"]
+CMD ["./app", "./init/appconfig.json"]
 
