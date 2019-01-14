@@ -30,10 +30,10 @@ RUN yarn install && bower install --allow-root
 
 # If you need SSL certificates for HTTPS, replace `FROM SCRATCH` with:
 #
-#   FROM alpine:3.7
-#   RUN apk --no-cache add ca-certificates
+FROM alpine:3.7
+RUN apk --no-cache add ca-certificates
 #
-FROM scratch
+#FROM scratch
 WORKDIR /root/
 COPY --from=go-builder /go/src/github.com/vic999/pirrigo/app .
 COPY init .
