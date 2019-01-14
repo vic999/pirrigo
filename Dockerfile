@@ -36,9 +36,9 @@ RUN apk --no-cache add ca-certificates
 #FROM scratch
 WORKDIR /root/
 COPY --from=go-builder /go/src/github.com/vic999/pirrigo/app .
-COPY init .
+COPY init ./init
 COPY --from=bower-builder /app/ ./static
-COPY templates .
+COPY templates ./templates
 
 EXPOSE 8000
 CMD ["./app", "./init/appconfig.json"]
