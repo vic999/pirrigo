@@ -26,7 +26,7 @@ WORKDIR /root/
 COPY --from=builder /go/src/github.com/vic999/pirrigo/app .
 COPY --from=builder /go/src/github.com/vic999/pirrigo/init .
 COPY --from=builder /go/src/github.com/vic999/pirrigo/static .
-COPY --from=builder /go/src/github.com/vic999/pirrigo/template .
+COPY --from=builder /go/src/github.com/vic999/pirrigo/templates .
 
 EXPOSE 8000
 ENTRYPOINT ["./app"]
