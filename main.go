@@ -50,7 +50,7 @@ func main() {
 		go pirri.ListenForTasks()
 	}
 
-	go listenForExit()
+	//go listenForExit()
 
 	pirri.WG.Wait()
 	fmt.Println("Exit key received - exiting!")
